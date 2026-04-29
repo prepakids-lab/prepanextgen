@@ -141,26 +141,37 @@ export default function Home() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { src: '/prepanextgen-image1.png', alt: 'PrepaNextGen - Image 1', delay: 0.1 },
-                { src: '/prepanextgen-image2.png', alt: 'PrepaNextGen - Image 2', delay: 0.2 },
-                { src: '/prepanextgen-image5.png', alt: 'PrepaNextGen - Image 5', delay: 0.3 },
-                { src: '/prepanextgen-image4.png', alt: 'PrepaNextGen - Image 4', delay: 0.4 }
-              ].map((image, index) => (
+                { src: '/prepanextgen-image1.png', alt: 'PrepaNextGen - Image 1', delay: 0.1, type: 'image' },
+                { src: '/prepanextgen-image2.png', alt: 'PrepaNextGen - Image 2', delay: 0.2, type: 'image' },
+                { src: '/prepanextgen-enfant.mp4', alt: 'PrepaNextGen - Moment 3', delay: 0.3, type: 'video' },
+                { src: '/prepanextgen-videotop.mp4', alt: 'PrepaNextGen - Moment 4', delay: 0.4, type: 'video' }
+              ].map((item, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: image.delay }}
+                  transition={{ duration: 0.6, delay: item.delay }}
                   className="relative group overflow-hidden rounded-xl shadow-2xl hover:shadow-[#C9A84C]/30 transition-all duration-300"
                 >
                   <div className="relative h-64 md:h-80">
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
+                    {item.type === 'video' ? (
+                      <video
+                        src={item.src}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    ) : (
+                      <Image
+                        src={item.src}
+                        alt={item.alt}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F2C]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                       <p className="text-white text-sm font-medium">

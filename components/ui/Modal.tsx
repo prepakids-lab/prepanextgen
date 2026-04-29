@@ -32,7 +32,7 @@ const Modal: React.FC<ModalProps> = ({
           
           {/* Modal Content */}
           <motion.div
-            className={`relative max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-[#0A0F2C] border border-white/10 rounded-2xl shadow-2xl ${className}`}
+            className={`relative max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-[#0A0F2C] border border-white/10 rounded-2xl shadow-2xl ${className}`}
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -47,7 +47,7 @@ const Modal: React.FC<ModalProps> = ({
             </button>
             
             {/* Content */}
-            <div className="p-8">
+            <div className="p-4 sm:p-8">
               {children}
             </div>
           </motion.div>

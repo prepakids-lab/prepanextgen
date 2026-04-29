@@ -670,10 +670,10 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ isOpen, onClose, preselec
         </div>
 
         {/* Stepper */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center mb-5">
           {steps.map((step, index) => (
-            <div key={step.number} className="flex items-center">
-              <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
+            <React.Fragment key={step.number}>
+              <div className={`flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 text-sm sm:text-base font-semibold shrink-0 transition-colors ${
                 currentStep >= step.number
                   ? 'bg-[#C9A84C] border-[#C9A84C] text-white'
                   : 'border-white/30 text-white/60'
@@ -681,17 +681,21 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ isOpen, onClose, preselec
                 {step.number}
               </div>
               {index < steps.length - 1 && (
-                <div className={`w-full h-0.5 mx-2 ${
-                  currentStep > step.number ? 'bg-[#C9A84C]' : 'bg-white/30'
+                <div className={`flex-1 h-0.5 mx-1 sm:mx-2 min-w-[4px] transition-colors ${
+                  currentStep > step.number ? 'bg-[#C9A84C]' : 'bg-white/20'
                 }`} />
               )}
-            </div>
+            </React.Fragment>
           ))}
         </div>
 
-        <h2 className="text-2xl font-serif text-white mb-6 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          {steps[currentStep - 1].title}
-        </h2>
+        {/* Étape courante — titre + indicateur mobile */}
+        <div className="mb-5 text-center">
+          <p className="text-white/40 text-xs mb-0.5 tracking-wider uppercase">Étape {currentStep} / 5</p>
+          <h2 className="text-base sm:text-2xl font-serif text-white leading-snug px-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            {steps[currentStep - 1].title}
+          </h2>
+        </div>
 
         <AnimatePresence mode="wait">
           <motion.form
@@ -728,7 +732,7 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ isOpen, onClose, preselec
                   {errors.gender && <p className="text-red-400 text-sm mt-2 text-center">{errors.gender.message}</p>}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-white font-medium">Nom *</label>
                     {hint('Tel qu\'il figure sur les documents officiels')}
@@ -1042,7 +1046,7 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ isOpen, onClose, preselec
             {/* Step 2: Mother Information */}
             {currentStep === 2 && (
               <>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-white font-medium">Nom *</label>
                     {hint('Nom de famille de la mère')}
@@ -1240,7 +1244,7 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ isOpen, onClose, preselec
             {/* Step 3: Father Information */}
             {currentStep === 3 && (
               <>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-white font-medium">Nom *</label>
                     {hint('Nom de famille du père')}
