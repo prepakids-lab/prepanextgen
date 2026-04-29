@@ -63,9 +63,12 @@ const Hero: React.FC = () => {
             className="order-2 lg:order-1"
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <img
-                src="/prepanextgen_image.png"
-                alt="PrepaNextGen - Excellence Technologique"
+              <video
+                src="/prepanextgen-imagedigital.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
                 className="w-full h-auto object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F2C]/20 via-transparent to-transparent rounded-2xl" />

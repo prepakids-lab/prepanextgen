@@ -5,7 +5,10 @@
       "mcp__Claude_in_Chrome__tabs_context_mcp",
       "Bash(python3 -c ' *)",
       "Bash(npm run *)",
-      "Bash(findstr env *)"
+      "Bash(findstr env *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
     ]
   }
 }
