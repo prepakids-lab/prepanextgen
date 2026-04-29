@@ -60,7 +60,7 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="order-2 lg:order-1"
+            className="order-1"
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <video
@@ -77,7 +77,7 @@ const Hero: React.FC = () => {
 
           {/* Right Content */}
           <motion.div
-            className="order-1 lg:order-2 text-center lg:text-left"
+            className="order-2 lg:order-2 text-center lg:text-left"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
