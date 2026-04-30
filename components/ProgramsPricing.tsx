@@ -6,6 +6,13 @@ import Card from './ui/Card';
 import Badge from './ui/Badge';
 import Button from './ui/Button';
 
+interface PricingRow {
+  icon: string;
+  label: string;
+  age: string;
+  price: string;
+}
+
 interface Program {
   name: string;
   duration: string;
@@ -14,12 +21,15 @@ interface Program {
   economy?: string;
   badge?: 'popular' | 'premium';
   features: string[];
+  schedule?: string[];
+  pricingRows?: PricingRow[];
 }
 
 interface ProgramCategory {
   name: string;
   focus: string;
   description: string;
+  tagline?: string;
   programs: Program[];
 }
 
@@ -365,41 +375,42 @@ const ProgramsPricing: React.FC = () => {
       name: 'Vacances Digitales',
       focus: 'Sessions Juin – Août',
       description: 'Technologie, Digital & IA — des sessions immersives pendant les vacances scolaires',
+      tagline: 'Transforme tes vacances en compétences clés : Intelligence artificielle (IA), programmation, design graphique et anglais digital & général.',
       programs: [
         {
           name: 'Session A',
           duration: '1 mois',
           price: 'Dès 185 000 FCFA',
-          features: [
-            '⏰ Lun–Jeu : 9h00 – 16h00',
-            '🎮 Vendredi : Jeux digitaux & IA (facultatif)',
-            '👦 PrepaKid (7-11 ans) : 185 000 FCFA',
-            '🧑 FlexiTeen (11-15 ans) : 195 000 FCFA',
-            '🎓 NextGen (16-18 ans) : 225 000 FCFA'
+          features: [],
+          schedule: ['⏰ Lun–Jeu : 9h00 – 16h00', '🎮 Vendredi : Jeux digitaux & IA (facultatif)'],
+          pricingRows: [
+            { icon: '👦', label: 'PrepaKid', age: '7-11 ans', price: '185 000 FCFA' },
+            { icon: '🧑', label: 'FlexiTeen', age: '11-15 ans', price: '195 000 FCFA' },
+            { icon: '🎓', label: 'NextGen', age: '16-18 ans', price: '225 000 FCFA' }
           ]
         },
         {
           name: 'Session B',
           duration: '2 mois',
           price: 'Dès 285 000 FCFA',
-          features: [
-            '⏰ Lun–Jeu : 9h00 – 16h00',
-            '🎮 Vendredi : Jeux digitaux & IA (facultatif)',
-            '👦 PrepaKid (7-11 ans) : 285 000 FCFA',
-            '🧑 FlexiTeen (11-15 ans) : 295 000 FCFA',
-            '🎓 NextGen (16-18 ans) : 325 000 FCFA'
+          features: [],
+          schedule: ['⏰ Lun–Jeu : 9h00 – 16h00', '🎮 Vendredi : Jeux digitaux & IA (facultatif)'],
+          pricingRows: [
+            { icon: '👦', label: 'PrepaKid', age: '7-11 ans', price: '285 000 FCFA' },
+            { icon: '🧑', label: 'FlexiTeen', age: '11-15 ans', price: '295 000 FCFA' },
+            { icon: '🎓', label: 'NextGen', age: '16-18 ans', price: '325 000 FCFA' }
           ]
         },
         {
           name: 'Session C',
           duration: '3 mois complets',
           price: 'Dès 325 000 FCFA',
-          features: [
-            '⏰ Lun–Jeu : 9h00 – 16h00',
-            '🎮 Vendredi : Jeux digitaux & IA (facultatif)',
-            '👦 PrepaKid (7-11 ans) : 325 000 FCFA',
-            '🧑 FlexiTeen (11-15 ans) : 325 000 FCFA',
-            '🎓 NextGen (16-18 ans) : 425 000 FCFA'
+          features: [],
+          schedule: ['⏰ Lun–Jeu : 9h00 – 16h00', '🎮 Vendredi : Jeux digitaux & IA (facultatif)'],
+          pricingRows: [
+            { icon: '👦', label: 'PrepaKid', age: '7-11 ans', price: '325 000 FCFA' },
+            { icon: '🧑', label: 'FlexiTeen', age: '11-15 ans', price: '325 000 FCFA' },
+            { icon: '🎓', label: 'NextGen', age: '16-18 ans', price: '425 000 FCFA' }
           ]
         }
       ]
@@ -417,11 +428,18 @@ const ProgramsPricing: React.FC = () => {
 
   const currentCategory = categories[activeTab];
 
+  const openAdmission = (programType: string) => {
+    window.dispatchEvent(new CustomEvent('openAdmissionModal', {
+      detail: { programCategory: currentCategory.name, programType }
+    }));
+  };
+
   return (
-    <section id="programmes" className="py-20 bg-gradient-to-b from-[#0A0F2C] to-[#1a1f4e]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="programmes" className="bg-gradient-to-b from-[#0A0F2C] to-[#1a1f4e]">
+      {/* Section title — not sticky */}
+      <div className="pt-20 pb-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="text-center mb-16"
+          className="text-center"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -434,26 +452,33 @@ const ProgramsPricing: React.FC = () => {
             Choisissez le programme adapté aux besoins de votre enfant
           </p>
         </motion.div>
+      </div>
 
-        {/* Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {tabs.map((tab) => (
-            <motion.button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                activeTab === tab.id
-                  ? 'bg-[#E10000] text-white'
-                  : 'bg-white/10 text-white hover:bg-white/20'
-              }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {tab.label}
-            </motion.button>
-          ))}
+      {/* Sticky Tabs */}
+      <div className="sticky top-16 z-30 bg-[#0A0F2C]/95 backdrop-blur-sm border-b border-white/10 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap justify-center gap-2">
+            {tabs.map((tab) => (
+              <motion.button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-5 py-2.5 rounded-full font-medium transition-all duration-300 text-sm ${
+                  activeTab === tab.id
+                    ? 'bg-[#E10000] text-white'
+                    : 'bg-white/10 text-white hover:bg-white/20'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {tab.label}
+              </motion.button>
+            ))}
+          </div>
         </div>
+      </div>
 
+      {/* Content */}
+      <div className="pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Category Description */}
         <AnimatePresence mode="wait">
           <motion.div
@@ -462,82 +487,135 @@ const ProgramsPricing: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="text-center mb-12"
+            className="text-center pt-10 mb-10"
           >
             <h3 className="text-3xl font-serif text-white mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               {currentCategory.name}: <span className="text-[#C9A84C]">{currentCategory.focus}</span>
             </h3>
             <p className="text-lg text-[#A8B2C8]">{currentCategory.description}</p>
+            {currentCategory.tagline && (
+              <p className="text-base text-white/70 mt-3 max-w-2xl mx-auto italic border-l-2 border-[#C9A84C] pl-4 text-left">
+                {currentCategory.tagline}
+              </p>
+            )}
           </motion.div>
         </AnimatePresence>
 
         {/* Programs Grid */}
         <AnimatePresence mode="wait">
-          <motion.div
-            key={`programs-${activeTab}`}
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {currentCategory.programs.map((program, index) => (
-              <motion.div
-                key={program.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-              >
-                <Card variant="glass" className={`h-full relative ${program.badge ? 'border-2' : ''} ${
-                  program.badge === 'popular' ? 'border-[#E10000]' : 
-                  program.badge === 'premium' ? 'border-[#C9A84C]' : ''
-                }`}>
-                  {program.badge && (
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                      <Badge variant={program.badge === 'popular' ? 'popular' : 'premium'}>
-                        {program.badge === 'popular' ? 'POPULAIRE' : 'PREMIUM'}
-                      </Badge>
+          {activeTab === 'vacances' ? (
+            <motion.div
+              key="programs-vacances"
+              className="grid md:grid-cols-3 gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {currentCategory.programs.map((program, index) => (
+                <motion.div
+                  key={program.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                >
+                  <Card variant="glass" className="h-full flex flex-col">
+                    <div className="text-center mb-5 pb-4 border-b border-white/10">
+                      <h4 className="text-2xl font-serif text-white mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                        {program.name}
+                      </h4>
+                      <p className="text-[#A8B2C8] text-sm">{program.duration}</p>
+                      <div className="text-3xl font-bold text-[#C9A84C] mt-3">{program.price}</div>
                     </div>
-                  )}
-                  
-                  <div className="text-center mb-6">
-                    <h4 className="text-2xl font-serif text-white mb-2">{program.name}</h4>
-                    <p className="text-[#A8B2C8] mb-4">{program.duration}</p>
-                    <div className="text-3xl font-bold text-[#C9A84C] mb-2">{program.price}</div>
-                    {program.totalPrice && (
-                      <p className="text-sm text-[#A8B2C8] mb-2">{program.totalPrice}</p>
-                    )}
-                    {program.economy && (
-                      <div className="inline-block bg-green-500/20 border border-green-400/40 rounded-full px-4 py-1 mt-1">
-                        <p className="text-sm font-bold text-green-400">🎉 Économie : {program.economy}</p>
+
+                    {program.schedule && (
+                      <div className="mb-4 space-y-1.5">
+                        {program.schedule.map((s, i) => (
+                          <p key={i} className="text-white/70 text-sm">{s}</p>
+                        ))}
                       </div>
                     )}
-                  </div>
-                  
-                  <ul className="space-y-2 mb-6">
-                    {program.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start text-white/80 text-sm">
-                        <div className="w-2 h-2 bg-[#C9A84C] rounded-full mr-2 mt-1 flex-shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  <Button variant="primary" className="w-full" onClick={() => {
-                    const event = new CustomEvent('openAdmissionModal', {
-                      detail: {
-                        programCategory: currentCategory.name,
-                        programType: program.name
-                      }
-                    });
-                    window.dispatchEvent(event);
-                  }}>
-                    Demande d'admission
-                  </Button>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
+
+                    {program.pricingRows && (
+                      <div className="space-y-2 mb-6 flex-1">
+                        {program.pricingRows.map((row, i) => (
+                          <div key={i} className="flex items-center justify-between bg-white/5 border border-white/10 rounded-lg px-3 py-2.5">
+                            <span className="text-white text-sm">
+                              {row.icon} <span className="font-medium">{row.label}</span>{' '}
+                              <span className="text-white/40 text-xs">({row.age})</span>
+                            </span>
+                            <span className="text-[#C9A84C] font-semibold text-sm whitespace-nowrap ml-2">{row.price}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <Button variant="primary" className="w-full mt-auto" onClick={() => openAdmission(program.name)}>
+                      Demande d&apos;admission
+                    </Button>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              key={`programs-${activeTab}`}
+              className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {currentCategory.programs.map((program, index) => (
+                <motion.div
+                  key={program.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                >
+                  <Card variant="glass" className={`h-full relative ${program.badge ? 'border-2' : ''} ${
+                    program.badge === 'popular' ? 'border-[#E10000]' :
+                    program.badge === 'premium' ? 'border-[#C9A84C]' : ''
+                  }`}>
+                    {program.badge && (
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                        <Badge variant={program.badge === 'popular' ? 'popular' : 'premium'}>
+                          {program.badge === 'popular' ? 'POPULAIRE' : 'PREMIUM'}
+                        </Badge>
+                      </div>
+                    )}
+
+                    <div className="text-center mb-6">
+                      <h4 className="text-2xl font-serif text-white mb-2">{program.name}</h4>
+                      <p className="text-[#A8B2C8] mb-4">{program.duration}</p>
+                      <div className="text-3xl font-bold text-[#C9A84C] mb-2">{program.price}</div>
+                      {program.totalPrice && (
+                        <p className="text-sm text-[#A8B2C8] mb-2">{program.totalPrice}</p>
+                      )}
+                      {program.economy && (
+                        <div className="inline-block bg-green-500/20 border border-green-400/40 rounded-full px-4 py-1 mt-1">
+                          <p className="text-sm font-bold text-green-400">🎉 Économie : {program.economy}</p>
+                        </div>
+                      )}
+                    </div>
+
+                    <ul className="space-y-2 mb-6">
+                      {program.features.map((feature, featureIndex) => (
+                        <li key={featureIndex} className="flex items-start text-white/80 text-sm">
+                          <div className="w-2 h-2 bg-[#C9A84C] rounded-full mr-2 mt-1 flex-shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Button variant="primary" className="w-full" onClick={() => openAdmission(program.name)}>
+                      Demande d&apos;admission
+                    </Button>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
     </section>

@@ -58,7 +58,7 @@ Article 7 — Droit à l'image
 En acceptant ces CGI, le Parent autorise PrepaNextGen à utiliser les photos et vidéos de l'élève réalisées lors des activités de l'Institut, à des fins de communication (réseaux sociaux, site web, supports pédagogiques). Cette autorisation est révocable à tout moment par écrit.
 
 Article 8 — Protection des données personnelles
-Les informations collectées sont utilisées exclusivement pour la gestion de la scolarité et la communication institutionnelle. Elles ne seront pas cédées à des tiers. Conformément à la réglementation en vigueur, vous disposez d'un droit d'accès, de rectification et de suppression de vos données sur simple demande à : contact@prepanextgen.com.
+Les informations collectées sont utilisées exclusivement pour la gestion de la scolarité et la communication institutionnelle. Elles ne seront pas cédées à des tiers. Conformément à la réglementation en vigueur, vous disposez d'un droit d'accès, de rectification et de suppression de vos données sur simple demande à : info@prepanextgen.com.
 
 Article 9 — Responsabilité
 L'Institut ne saurait être tenu responsable des pertes ou dommages causés à des effets personnels au sein de l'établissement. Sa responsabilité est limitée aux activités directement encadrées par ses formateurs accrédités.

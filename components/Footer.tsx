@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
     },
     {
       icon: Mail,
-      text: 'contact@prepanextgen.com'
+      text: 'info@prepanextgen.com'
     }
   ];
 

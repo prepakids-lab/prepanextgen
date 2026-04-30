@@ -10,6 +10,7 @@ import EducationalExperience from '../components/EducationalExperience';
 import VisionMissionValues from '../components/VisionMissionValues';
 import Footer from '../components/Footer';
 import AdmissionForm from '../components/AdmissionForm';
+import WhatsAppButton from '../components/WhatsAppButton';
 import Image from 'next/image';
 
 export default function Home() {
@@ -261,6 +262,8 @@ export default function Home() {
         onClose={closeAdmissionModal}
         preselectedProgram={preselectedProgram}
       />
+
+      <WhatsAppButton />
     </div>
   );
 }
